@@ -52,16 +52,16 @@ pipeline {
             }
         }
 
-        stage('SAST Scan') {
-            steps {
-                script {
-                    def scannerHome = tool 'sonar-scanner'
-                    withSonarQubeEnv('sonar-server') {
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
+       stage('SAST Scan') {
+    steps {
+        script {
+            def scannerHome = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+            withSonarQubeEnv('sonar-server') {
+                sh "${scannerHome}/bin/sonar-scanner"
             }
         }
+    }
+}
 
         stage('SCA Scan') {
             steps {
