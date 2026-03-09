@@ -51,7 +51,7 @@ pipeline {
         }
        stage('SAST Scan') {
     steps {
-        withSonarQubeEnv('SonarQubeServer') {
+        withSonarQubeEnv('sonar-server') {
             sh 'sonar-scanner'
         }
     }
