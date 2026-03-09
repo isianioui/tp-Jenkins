@@ -36,16 +36,12 @@
 // }
 
 
-
 pipeline {
     agent any
     stages {
-        // We removed the 'Clone Repository' stage because Jenkins does it automatically!
-        
         stage('Install Dependencies') {
             steps {
-                // Using pip3 ensures it uses Python 3
-                sh 'pip3 install -r requirements.txt'
+                sh 'pip3 install --break-system-packages -r requirements.txt'
             }
         }
         stage('Run Tests') {
@@ -55,14 +51,22 @@ pipeline {
         }
         stage('SAST Scan') {
             steps {
-                // If you haven't installed SonarQube yet, comment this stage out
-                // sh 'sonar-scanner' 
                 echo 'Skipping SAST for now...'
+                // Once SonarQube is ready, you'll use:
+                // tool 'sonar-scanner'
             }
         }
         stage('SCA Scan') {
             steps {
-                sh 'dependency-check.sh --project "TP-Jenkins" --scan . --format HTML --failOnCVSS 7'
+                // Use the plugin command instead of 'sh'
+                // 'odcInstallation' must match the name 'DP-Check' you gave in Tools
+                dependencyCheck additionalArguments: '--scan . --format HTML --failOnCVSS 7', odcInstallation: 'DP-Check'
+            }
+        }
+        stage('Publish Reports') {
+            steps {
+                // This makes the report visible on the Jenkins project page
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
             }
         }
     }
