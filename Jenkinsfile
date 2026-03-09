@@ -65,13 +65,21 @@ pipeline {
 
         stage('SCA Scan') {
             steps {
-                dependencyCheck additionalArguments: '--scan . --format HTML --format XML --failOnCVSS 7', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--scan . --format HTML --format XML --output . --failOnCVSS 7', odcInstallation: 'DP-Check'
             }
         }
 
         stage('Publish Reports') {
             steps {
                 dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                publishHTML target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: '.',
+                    reportFiles: 'dependency-check-report.html',
+                    reportName: 'OWASP Dependency-Check Report'
+                ]
             }
         }
 
