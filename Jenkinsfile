@@ -51,7 +51,7 @@ pipeline {
         }
         stage('SAST Scan') {
             steps {
-                echo 'Skipping SAST for now...'
+                // echo 'Skipping SAST for now...'
                 // Once SonarQube is ready, you'll use:
                  tool 'sonar-scanner'
             }
