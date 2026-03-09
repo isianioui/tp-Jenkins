@@ -53,7 +53,7 @@ pipeline {
             steps {
                 echo 'Skipping SAST for now...'
                 // Once SonarQube is ready, you'll use:
-                // tool 'sonar-scanner'
+                 tool 'sonar-scanner'
             }
         }
         stage('SCA Scan') {
