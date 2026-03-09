@@ -60,7 +60,7 @@ pipeline {
             steps {
                 // Use the plugin command instead of 'sh'
                 // 'odcInstallation' must match the name 'DP-Check' you gave in Tools
-                dependencyCheck additionalArguments: '--scan . --format HTML --failOnCVSS 7', odcInstallation: 'DP-Check'
+                dependencyCheck additionalArguments: '--scan . --format HTML --format XML --failOnCVSS 7', odcInstallation: 'DP-Check'
             }
         }
         stage('Publish Reports') {
