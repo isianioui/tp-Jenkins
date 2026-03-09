@@ -49,13 +49,13 @@ pipeline {
                 sh 'pytest test_app.py'
             }
         }
-        stage('SAST Scan') {
-            steps {
-                // echo 'Skipping SAST for now...'
-                // Once SonarQube is ready, you'll use:
-                 tool 'sonar-scanner'
-            }
+       stage('SAST Scan') {
+    steps {
+        withSonarQubeEnv('SonarQubeServer') {
+            sh 'sonar-scanner'
         }
+    }
+}
         stage('SCA Scan') {
             steps {
                 // Use the plugin command instead of 'sh'
